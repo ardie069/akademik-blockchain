@@ -1,0 +1,135 @@
+{
+    "abi": [
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_matkul",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_nilai",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tambahNilai",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                }
+            ],
+            "name": "lihatNilai",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "matkul",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nilai",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct Akademik.Nilai[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_matkul",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_nilaiBaru",
+                    "type": "uint256"
+                }
+            ],
+            "name": "updateNilai",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_matkul",
+                    "type": "string"
+                }
+            ],
+            "name": "hapusNilai",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "nilaiMinimal",
+                    "type": "uint256"
+                }
+            ],
+            "name": "filterNilai",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "matkul",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nilai",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct Akademik.Nilai[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+}

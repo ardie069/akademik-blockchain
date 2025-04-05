@@ -1,0 +1,12 @@
+# Dependency folders
+node_modules/
+build/
+
+# Truffle secret or private keys (if any)
+.env
+
+# OS or Editor specific
+.DS_Store
+.vscode/
+.idea/
+*.log

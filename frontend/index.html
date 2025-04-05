@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Akademik Blockchain</title>
+</head>
+<body>
+    <h1>🌐 Akademik Blockchain</h1>
+
+    <!-- Input alamat mahasiswa -->
+    <input id="mahasiswaAddr" placeholder="Alamat Mahasiswa (0x...)" style="width: 300px;">
+    <br><br>
+
+    <!-- Tambah Nilai -->
+    <h3>Tambah Nilai</h3>
+    <input id="matkul" placeholder="Mata Kuliah">
+    <input id="nilai" placeholder="Nilai" type="number">
+    <button onclick="handleTambahNilai()">Tambah Nilai</button>
+
+    <!-- Update Nilai -->
+    <h3>Update Nilai</h3>
+    <input id="matkulUpdate" placeholder="Mata Kuliah">
+    <input id="nilaiBaru" placeholder="Nilai Baru" type="number">
+    <button onclick="handleUpdateNilai()">Update Nilai</button>
+
+    <!-- Hapus Nilai -->
+    <h3>Hapus Nilai</h3>
+    <input id="matkulHapus" placeholder="Mata Kuliah">
+    <button onclick="handleHapusNilai()">Hapus Nilai</button>
+
+    <!-- Lihat Nilai -->
+    <h3>Lihat Nilai</h3>
+    <button onclick="handleLihatNilai()">Lihat Semua Nilai</button>
+
+    <!-- Filter Nilai -->
+    <h3>Filter Nilai</h3>
+    <input id="nilaiMinimal" type="number" placeholder="Nilai Minimal">
+    <button onclick="handleFilterNilai()">Filter Nilai</button>  
+
+    <p id="status" style="color: gray;"></p>
+    <ul id="hasil"></ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
