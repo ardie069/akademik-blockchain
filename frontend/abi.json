@@ -1,6 +1,11 @@
 {
     "abi": [
         {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
             "anonymous": false,
             "inputs": [
                 {
@@ -72,14 +77,187 @@
         {
             "inputs": [
                 {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "name": "daftarMatkul",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "nama",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "dosenPengampu",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "jumlahMatkul",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "krsMahasiswa",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "roles",
+            "outputs": [
+                {
+                    "internalType": "enum Akademik.Role",
+                    "name": "",
+                    "type": "uint8"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "user",
+                    "type": "address"
+                },
+                {
+                    "internalType": "enum Akademik.Role",
+                    "name": "role",
+                    "type": "uint8"
+                }
+            ],
+            "name": "setRole",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "_nama",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_dosen",
+                    "type": "address"
+                }
+            ],
+            "name": "tambahMatkul",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_idMatkul",
+                    "type": "uint256"
+                }
+            ],
+            "name": "isiKRS",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_mahasiswa",
+                    "type": "address"
+                }
+            ],
+            "name": "lihatKRS",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "nama",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "dosenPengampu",
+                            "type": "address"
+                        }
+                    ],
+                    "internalType": "struct Akademik.MataKuliah[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "address",
                     "name": "_mahasiswa",
                     "type": "address"
                 },
                 {
-                    "internalType": "string",
-                    "name": "_matkul",
-                    "type": "string"
+                    "internalType": "uint256",
+                    "name": "_idMatkul",
+                    "type": "uint256"
                 },
                 {
                     "internalType": "uint256",
@@ -121,8 +299,7 @@
                 }
             ],
             "stateMutability": "view",
-            "type": "function",
-            "constant": true
+            "type": "function"
         },
         {
             "inputs": [
@@ -199,8 +376,7 @@
                 }
             ],
             "stateMutability": "view",
-            "type": "function",
-            "constant": true
+            "type": "function"
         }
     ]
 }
