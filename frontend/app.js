@@ -45,6 +45,7 @@ async function handleTambahNilai() {
     const accounts = await web3.eth.getAccounts();
     await contract.methods.tambahNilai(mahasiswaAddr, matkul, nilai).send({ from: accounts[0] });
     await kirimKePHP(mahasiswaAddr, matkul, nilai);
+    await ambilLogAktivitas();
     document.getElementById("status").textContent = "✅ Nilai berhasil ditambahkan.";
     showToast("✅ Nilai berhasil ditambahkan.");
 }
@@ -56,6 +57,7 @@ async function handleUpdateNilai() {
     const accounts = await web3.eth.getAccounts();
     await contract.methods.updateNilai(mahasiswaAddr, matkul, nilaiBaru).send({ from: accounts[0] });
     await kirimUpdateKePHP(mahasiswaAddr, matkul, nilaiBaru);
+    await ambilLogAktivitas();
     document.getElementById("status").textContent = "✏️ Nilai berhasil diperbarui.";
     showToast("✏️ Nilai berhasil diperbarui.");
 }
@@ -66,6 +68,7 @@ async function handleHapusNilai() {
     const accounts = await web3.eth.getAccounts();
     await contract.methods.hapusNilai(mahasiswaAddr, matkul).send({ from: accounts[0] });
     await kirimHapusKePHP(mahasiswaAddr, matkul);
+    await ambilLogAktivitas();
     document.getElementById("status").textContent = "🗑️ Nilai berhasil dihapus.";
     showToast("🗑️ Nilai berhasil dihapus.");
 }
@@ -191,6 +194,70 @@ function showToast(message) {
     setTimeout(() => {
         toast.classList.add("hidden");
     }, 3000);
+}
+
+async function ambilLogAktivitas() {
+    const events = await contract.getPastEvents("allEvents", {
+        fromBlock: 0,
+        toBlock: "latest"
+    });
+
+    const logList = document.getElementById("logAktivitas");
+    logList.innerHTML = "";
+
+    if (events.length === 0) {
+        logList.innerHTML = `
+            <li class="bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-100 px-4 py-2 rounded-xl shadow">
+                ❌ Tidak ada log aktivitas ditemukan.
+            </li>`;
+        return;
+    }
+
+    for (const e of events.reverse()) {
+        const li = document.createElement("li");
+
+        const block = await web3.eth.getBlock(e.blockNumber);
+        const waktu = new Date(block.timestamp * 1000).toLocaleString("id-ID");
+
+        // ambil nilai fleksibel
+        const nilai = e.returnValues.nilai ?? e.returnValues._nilai ?? e.returnValues.nilaiBaru ?? "-";
+        const mahasiswa = e.returnValues.mahasiswa || e.returnValues._mahasiswa || "-";
+        const matkul = e.returnValues.matkul || e.returnValues._matkul || "-";
+
+        // Warna berdasarkan jenis event
+        let bgColor = "";
+        let icon = "";
+
+        switch (e.event) {
+            case "NilaiDitambahkan":
+                bgColor = "bg-green-100 dark:bg-green-800 text-green-900 dark:text-green-100";
+                icon = "➕";
+                break;
+            case "NilaiDiperbarui":
+                bgColor = "bg-yellow-100 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100";
+                icon = "✏️";
+                break;
+            case "NilaiDihapus":
+                bgColor = "bg-red-100 dark:bg-red-800 text-red-900 dark:text-red-100";
+                icon = "🗑️";
+                break;
+            default:
+                bgColor = "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100";
+                icon = "📄";
+        }
+
+        li.className = `${bgColor} rounded-xl p-4 shadow-md mb-3 transition duration-300 hover:scale-[1.02]`;
+
+        li.innerHTML = `
+            <div class="font-bold text-base">${icon} ${e.event}</div>
+            <div class="text-sm">👨‍🎓 Mahasiswa: ${mahasiswa}</div>
+            <div class="text-sm">📘 Matkul: ${matkul}</div>
+            <div class="text-sm">📊 Nilai: ${nilai}</div>
+            <div class="text-xs mt-2 italic text-gray-500 dark:text-gray-300">🕒 ${waktu}</div>
+        `;
+
+        logList.appendChild(li);
+    }
 }
 
 window.addEventListener("load", init);
