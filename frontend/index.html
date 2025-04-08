@@ -17,7 +17,11 @@
         <div
             class="w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5 md:p-8 lg:p-10 space-y-6">
             <!-- Toggle Dark Mode -->
-            <div class="flex justify-end">
+            <div class="flex justify-between items-center">
+                <button id="logoutBtn" onclick="handleLogout()"
+                    class="hidden text-sm px-3 py-1 border rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+                    🔓 Logout
+                </button>
                 <button id="toggleDark"
                     class="text-sm px-3 py-1 border rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
                     🌙 Mode Gelap
@@ -28,80 +32,97 @@
                 Blockchain
             </h1>
 
-            <div class="grid gap-6 md:grid-cols-2">
-                <!-- Input alamat -->
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium mb-1">Alamat Mahasiswa (0x...)</label>
-                    <input id="mahasiswaAddr" placeholder="0x..."
-                        class="w-full px-4 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                </div>
-
-                <!-- Tambah Nilai -->
-                <div>
-                    <h3 class="font-semibold text-sm mb-2">➕ Tambah Nilai</h3>
-                    <div class="space-y-2">
-                        <input id="matkul" placeholder="Mata Kuliah"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <input id="nilai" type="number" placeholder="Nilai"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <button onclick="handleTambahNilai()"
-                            class="w-full px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600">Tambah</button>
+            <div id="halamanKonten" class="hidden">
+                <div class="grid gap-6 md:grid-cols-2">
+                    <!-- Input alamat -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-1">Alamat Mahasiswa (0x...)</label>
+                        <input id="mahasiswaAddr" placeholder="0x..."
+                            class="w-full px-4 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
                     </div>
-                </div>
 
-                <!-- Update Nilai -->
-                <div>
-                    <h3 class="font-semibold text-sm mb-2">✏️ Update Nilai</h3>
-                    <div class="space-y-2">
-                        <input id="matkulUpdate" placeholder="Mata Kuliah"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <input id="nilaiBaru" type="number" placeholder="Nilai Baru"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <button onclick="handleUpdateNilai()"
-                            class="w-full px-4 py-2 bg-yellow-500 text-white text-sm rounded-md hover:bg-yellow-600">Update</button>
+                    <!-- Tambah Nilai -->
+                    <div id="formTambah">
+                        <h3 class="font-semibold text-sm mb-2">➕ Tambah Nilai</h3>
+                        <div class="space-y-2">
+                            <input id="matkul" placeholder="Mata Kuliah"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <input id="nilai" type="number" placeholder="Nilai"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <button onclick="handleTambahNilai()"
+                                class="w-full px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600">Tambah</button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Hapus Nilai -->
-                <div>
-                    <h3 class="font-semibold text-sm mb-2">🗑️ Hapus Nilai</h3>
-                    <div class="space-y-2">
-                        <input id="matkulHapus" placeholder="Mata Kuliah"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <button onclick="handleHapusNilai()"
-                            class="w-full px-4 py-2 bg-red-500 text-white text-sm rounded-md hover:bg-red-600">Hapus</button>
+                    <!-- Update Nilai -->
+                    <div id="formUpdate">
+                        <h3 class="font-semibold text-sm mb-2">✏️ Update Nilai</h3>
+                        <div class="space-y-2">
+                            <input id="matkulUpdate" placeholder="Mata Kuliah"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <input id="nilaiBaru" type="number" placeholder="Nilai Baru"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <button onclick="handleUpdateNilai()"
+                                class="w-full px-4 py-2 bg-yellow-500 text-white text-sm rounded-md hover:bg-yellow-600">Update</button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Filter Nilai -->
-                <div>
-                    <h3 class="font-semibold text-sm mb-2">🔍 Filter Nilai</h3>
-                    <div class="space-y-2">
-                        <input id="nilaiMinimal" type="number" placeholder="Nilai Minimal"
-                            class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
-                        <button onclick="handleFilterNilai()"
-                            class="w-full px-4 py-2 bg-indigo-500 text-white text-sm rounded-md hover:bg-indigo-600">Filter</button>
+                    <!-- Hapus Nilai -->
+                    <div id="formHapus">
+                        <h3 class="font-semibold text-sm mb-2">🗑️ Hapus Nilai</h3>
+                        <div class="space-y-2">
+                            <input id="matkulHapus" placeholder="Mata Kuliah"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <button onclick="handleHapusNilai()"
+                                class="w-full px-4 py-2 bg-red-500 text-white text-sm rounded-md hover:bg-red-600">Hapus</button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Lihat semua nilai -->
-                <div class="md:col-span-2">
-                    <button onclick="handleLihatNilai()"
-                        class="w-full px-4 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600">📚 Lihat
-                        Semua Nilai</button>
+                    <!-- Filter Nilai -->
+                    <div>
+                        <h3 class="font-semibold text-sm mb-2">🔍 Filter Nilai</h3>
+                        <div class="space-y-2">
+                            <input id="nilaiMinimal" type="number" placeholder="Nilai Minimal"
+                                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+                            <button onclick="handleFilterNilai()"
+                                class="w-full px-4 py-2 bg-indigo-500 text-white text-sm rounded-md hover:bg-indigo-600">Filter</button>
+                        </div>
+                    </div>
+
+                    <!-- Lihat semua nilai -->
+                    <div class="md:col-span-2">
+                        <button onclick="handleLihatNilai()"
+                            class="w-full px-4 py-2 bg-green-500 text-white text-sm rounded-md hover:bg-green-600">📚
+                            Lihat
+                            Semua Nilai</button>
+                    </div>
+
+                    <!-- Status -->
+                    <p id="status" class="text-sm text-gray-500 italic dark:text-gray-400"></p>
+
+                    <!-- Hasil -->
+                    <ul id="hasil" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"></ul>
+
+                    <!-- Log Aktivitas -->
+                    <button onclick="bukaModalLog()"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
+                        🧾 Lihat Log Aktivitas
+                    </button>
+                </div>
+                <!-- Modal Log Aktivitas -->
+                <div id="modalLog"
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 opacity-0 pointer-events-none">
+                    <div
+                        class="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+                        <button onclick="tutupModalLog()"
+                            class="absolute top-2 right-3 text-xl text-gray-700 dark:text-gray-200 hover:text-red-500">
+                            ✖️
+                        </button>
+                        <h2 class="text-xl font-bold mb-4 text-center">📜 Log Aktivitas</h2>
+                        <ul id="logAktivitas" class="space-y-3"></ul>
+                    </div>
                 </div>
             </div>
-
-            <!-- Status -->
-            <p id="status" class="text-sm text-gray-500 italic dark:text-gray-400"></p>
-
-            <!-- Hasil -->
-            <ul id="hasil" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"></ul>
-
-            <!-- Log Aktivitas -->
-            <button onclick="bukaModalLog()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
-                🧾 Lihat Log Aktivitas
-            </button>            
         </div>
     </div>
 
@@ -110,14 +131,27 @@
         <span id="toastMessage"></span>
     </div>
 
-    <!-- Modal Log Aktivitas -->
-    <div id="modalLog" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 opacity-0 pointer-events-none">
-        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
-            <button onclick="tutupModalLog()" class="absolute top-2 right-3 text-xl text-gray-700 dark:text-gray-200 hover:text-red-500">
-                ✖️
+    <!-- Form Login Ringkas & Ramping -->
+    <div class="min-h-screen flex items-center justify-center">
+        <div id="loginForm"
+            class="w-full max-w-xs mx-auto mt-20 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+            <h2 class="text-lg font-bold text-center text-blue-600 dark:text-blue-400">🔐 Login</h2>
+    
+            <select id="role"
+                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white">
+                <option disabled selected>Pilih Role</option>
+                <option value="mahasiswa">Mahasiswa</option>
+                <option value="dosen">Dosen</option>
+                <option value="admin">Admin</option>
+            </select>
+    
+            <input id="loginAddr" placeholder="Alamat Akun (0x...)"
+                class="w-full px-3 py-2 border rounded-md text-sm bg-white dark:bg-gray-700 dark:text-white" />
+    
+            <button onclick="handleLogin()"
+                class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                Login
             </button>
-            <h2 class="text-xl font-bold mb-4 text-center">📜 Log Aktivitas</h2>
-            <ul id="logAktivitas" class="space-y-3"></ul>
         </div>
     </div>
 

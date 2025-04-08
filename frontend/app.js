@@ -21,6 +21,23 @@ async function init() {
 
             contract = new web3.eth.Contract(abi, contractAddress);
             console.log("✅ Kontrak berhasil diinisialisasi:", contract);
+
+            // Ambil role & alamat dari localStorage
+            const userRole = localStorage.getItem("userRole");
+            const userAddr = localStorage.getItem("userAddr");
+
+            if (userAddr) {
+                document.getElementById("mahasiswaAddr").value = userAddr;
+            }
+
+            if (userRole) {
+                aturTampilanRole(userRole);
+            } else {
+                showToast("🔐 Silakan login untuk mulai menggunakan sistem.");
+            }
+
+            await cekRole(); // Cek role dari smart contract
+
         } catch (e) {
             console.error("❌ Gagal load ABI atau config:", e);
         }
@@ -258,6 +275,72 @@ async function ambilLogAktivitas() {
 
         logList.appendChild(li);
     }
+}
+
+async function cekRole() {
+    if (!contract || !account) return;
+
+    const roleIndex = await contract.methods.roles(account).call();
+    const roleMapping = ["None", "mahasiswa", "dosen", "admin"];
+    const role = roleMapping[roleIndex];
+
+    console.log("🔐 Role dari kontrak:", role);
+
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("userAddr", account);
+
+    aturTampilanRole(role);
+}
+
+function handleLogin() {
+    const role = document.getElementById("role").value;
+    const loginAddr = document.getElementById("loginAddr").value;
+
+    if (!role || !loginAddr) {
+        showToast("❌ Isi role dan alamat akun terlebih dahulu.");
+        return;
+    }
+
+    // Simpan data login (bisa di localStorage jika ingin persist)
+    window.userRole = role;
+    window.userAddr = loginAddr;
+
+    // Sembunyikan login form, tampilkan konten
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("halamanKonten").classList.remove("hidden");
+    document.getElementById("logoutBtn").classList.remove("hidden");
+
+    aturTampilanRole(role);
+}
+
+function aturTampilanRole(role) {
+    if (role === "mahasiswa") {
+        document.getElementById("formTambah").classList.add("hidden");
+        document.getElementById("formUpdate").classList.add("hidden");
+        document.getElementById("formHapus").classList.add("hidden");
+    }
+
+    if (role === "dosen") {
+        document.getElementById("formTambah").classList.remove("hidden");
+        document.getElementById("formUpdate").classList.remove("hidden");
+        document.getElementById("formHapus").classList.remove("hidden");
+    }
+
+    if (role === "admin") {
+        // admin bisa akses semua, tidak ada yang disembunyikan
+    }
+}
+
+function handleLogout() {
+    window.userRole = null;
+    window.userAddr = null;
+
+    document.getElementById("halamanKonten").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+    document.getElementById("logoutBtn").classList.add("hidden");
+
+    document.getElementById("status").textContent = "Berhasil logout.";
+    document.getElementById("hasil").innerHTML = "";
 }
 
 window.addEventListener("load", init);
