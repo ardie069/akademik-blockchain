@@ -8,9 +8,13 @@ contract Akademik {
     }
 
     mapping(address => Nilai[]) private nilaiMahasiswa;
+    event NilaiDitambahkan(address indexed mahasiswa, string matkul, uint nilai);
+    event NilaiDiperbarui(address indexed mahasiswa, string matkul, uint nilaiBaru);
+    event NilaiDihapus(address indexed mahasiswa, string matkul);
 
     function tambahNilai(address _mahasiswa, string memory _matkul, uint _nilai) public {
         nilaiMahasiswa[_mahasiswa].push(Nilai(_matkul, _nilai));
+        emit NilaiDitambahkan(_mahasiswa, _matkul, _nilai);
     }
 
     function lihatNilai(address _mahasiswa) public view returns (Nilai[] memory) {
@@ -21,6 +25,7 @@ contract Akademik {
         for (uint i = 0; i < nilaiMahasiswa[_mahasiswa].length; i++) {
             if (keccak256(bytes(nilaiMahasiswa[_mahasiswa][i].matkul)) == keccak256(bytes(_matkul))) {
                 nilaiMahasiswa[_mahasiswa][i].nilai = _nilaiBaru;
+                emit NilaiDiperbarui(_mahasiswa, _matkul, _nilaiBaru);
                 return;
             }
         }
@@ -32,6 +37,7 @@ contract Akademik {
             if (keccak256(bytes(nilaiMahasiswa[_mahasiswa][i].matkul)) == keccak256(bytes(_matkul))) {
                 nilaiMahasiswa[_mahasiswa][i] = nilaiMahasiswa[_mahasiswa][length - 1];
                 nilaiMahasiswa[_mahasiswa].pop();
+                emit NilaiDihapus(_mahasiswa, _matkul);
                 return;
             }
         }
